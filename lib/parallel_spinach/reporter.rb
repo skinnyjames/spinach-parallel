@@ -23,6 +23,7 @@ module Spinach
         @agent = @bus.register
         at_exit do
           @agent.finish!
+          exit @success ? 0 : 1
         end
       end
 
@@ -60,6 +61,10 @@ module Spinach
         data['scenarios'] ||= []
         data['scenarios'] << @report
         @agent.merge(data)
+      end
+
+      def after_run(success)
+        @success = success
       end
     end
   end
