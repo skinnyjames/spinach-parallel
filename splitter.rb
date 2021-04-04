@@ -22,6 +22,10 @@ module DoubleDecker
       item
     end
 
+    def active?
+      !!get
+    end
+
     def empty?
       JSON.parse(get).empty?
     end
@@ -29,6 +33,7 @@ module DoubleDecker
     def teardown!
       @store.del("#{run_id}_queue") if get
     end
+
     private
 
     def commit(queue)
@@ -90,7 +95,7 @@ module Splitter
 
         runner = ::Spinach::Runner.new([], cli.options)
         runner.run_with do 
-          while !queue.empty?
+          while queue.active? && !queue.empty?
             scenario_path, *lines = queue.shift.split(":")
             feature = ::Spinach::Parser::Visitor.new.visit GherkinRuby.parse(File.read(scenario_path) + "\n")
             feature.filename = scenario_path
@@ -100,7 +105,7 @@ module Splitter
             ::Spinach::Runner::ScenarioRunner.new(scenario_to_run).run
           end
         end
-        queue.teardown!
+        queue.teardown! 
       end
     end
   end
