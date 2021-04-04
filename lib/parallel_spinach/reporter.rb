@@ -1,12 +1,12 @@
 module Spinach
   class Reporter
     class Parallel < Spinach::Reporter
-      def self.on_finished(&block)
+      def self.on_finished(raw=false, &block)
         @finished = lambda do |payload|
           scenarios = payload.values.inject([]) do |arr, data|
             arr << data.values
           end.flatten
-          block.call(payload) if block
+          block.call(raw ? payload : scenarios) if block
         end
       end
 
