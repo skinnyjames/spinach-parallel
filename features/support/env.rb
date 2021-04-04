@@ -1,11 +1,6 @@
 require "rspec"
 require "double_decker"
 
-module Spinach
-  class JsonReporter
-  end
-end
-
 bus = DoubleDecker::Bus.new(ENV["ID"], expected_agents: ENV[CI_NODE_TOTAL])
 
 bus.on_finished do |payload|
