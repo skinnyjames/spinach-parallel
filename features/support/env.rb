@@ -1,12 +1,13 @@
 require "rspec"
 require "double_decker"
 
-bus = DoubleDecker::Bus.new(ENV["ID"], expected_agents: ENV[CI_NODE_TOTAL])
+bus = DoubleDecker::Bus.new(ENV["ID"], expected_agents: ENV['CI_NODE_TOTAL'])
 
 bus.on_finished do |payload|
   scenarios = payload.values.inject([]) do |arr, data|
     arr << data.values
   end.flatten
+  pp scenarios.to_json
   File.open("test.json", "w") { |f| f << scenarios.to_json }
 end
 
