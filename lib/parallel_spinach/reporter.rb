@@ -6,7 +6,7 @@ module Spinach
           scenarios = payload.values.inject([]) do |arr, data|
             arr << data.values
           end.flatten
-          block.call(scenarios) if block
+          block.call(payload) if block
         end
       end
 
