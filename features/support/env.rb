@@ -1,7 +1,6 @@
 require "rspec"
-require "double_decker"
 require_relative "../../lib/parallel_spinach/reporter"
-
+require "rest-client"
 Spinach::Reporter::Parallel.on_finished do |scenarios|
   pp scenarios
 end
