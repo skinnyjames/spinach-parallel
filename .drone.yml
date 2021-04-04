@@ -1,0 +1,34 @@
+kind: pipeline
+name: default
+type: kubernetes
+
+steps:
+- name: redis
+  image: redis
+  detach: true
+
+- name: agent_1
+  image: ruby:3.0
+  commands: 
+    - bundle install
+    - gem install knapsack
+    - CI_NODE_TOTAL=2 CI_NODE_INDEX=0 ruby splitter.rb
+  depends_on: 
+    - redis
+
+- name: agent_2
+  image: ruby:3.0
+  commands: 
+    - bundle install
+    - gem install knapsack
+    - CI_NODE_TOTAL=2 CI_NODE_INDEX=1 ruby splitter.rb
+  depends_on: 
+    - redis
+
+- name: post validation
+  image: ruby:3.0
+  commands: 
+    - echo "hello"
+  depends_on: 
+    - agent_1
+    - agent_2
