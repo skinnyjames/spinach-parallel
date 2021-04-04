@@ -12,7 +12,7 @@ steps:
   commands: 
     - bundle install
     - gem install knapsack
-    - CI_NODE_TOTAL=2 CI_NODE_INDEX=0 ruby splitter.rb
+    - CI_NODE_TOTAL=2 CI_NODE_INDEX=0 ruby lib/parallel_spinach.rb -r parallel
   depends_on: 
     - redis
 
@@ -21,7 +21,7 @@ steps:
   commands: 
     - bundle install
     - gem install knapsack
-    - CI_NODE_TOTAL=2 CI_NODE_INDEX=1 ruby splitter.rb
+    - CI_NODE_TOTAL=2 CI_NODE_INDEX=1 ruby lib/parallel_spinach.rb -r parallel
   depends_on: 
     - redis
 
