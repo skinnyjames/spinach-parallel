@@ -53,7 +53,7 @@ module Spinach
           
       def after_scenario_run(scenario, feature)
         end_time = Time.now
-      
+        @report[:name] = scenario.name
         @report[:end_time] = end_time
         @report[:duration] = @report[:end_time] - @report[:start_time]
             
